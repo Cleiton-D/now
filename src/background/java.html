@@ -1,0 +1,15 @@
+<script>
+	const { ipcRenderer } = require('electron');
+	const { channels } = require('../shared/constants');
+	const { saveProject } = require('./project');
+
+	ipcRenderer.on(channels.project.GENERATE_PROJECT, (event, args) => {
+		const { project } = args;
+
+		saveProject(args);
+
+		event.sender.send(channels.project.GENERATE_SUCCESS);
+	});
+
+	ipcRenderer.send(channels.project.BACKGROUND_READY);
+</script>
